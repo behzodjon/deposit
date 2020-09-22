@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App\Listeners;
 
 use App\Events\UserCreatedDeposit;
 use App\Transaction;
+use App\Wallet;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -20,11 +21,14 @@ class CommitDepositTransactionDatabse
     {
 
         Transaction::create([
-            'type' => 'create_deposit',
+            'type' => Transaction::STATUS_CREATE_DEPOSIT,
             'user_id' => auth()->user()->id,
             'wallet_id' => $event->userDeposit->wallet_id,
             'deposit_id' => $event->userDeposit->id,
             'amount' => $event->userDeposit->invested,
         ]);
+
+        Wallet::whereId($event->userDeposit->wallet_id)
+            ->decrement('balance', $event->userDeposit->invested);
     }
 }

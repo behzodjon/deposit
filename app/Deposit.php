@@ -8,8 +8,13 @@ class Deposit extends Model
 {
     protected $guarded = [];
 
+    const PERCENT = '0.2';
+
+    const STATUS_OPEN = 'open';
+    const STATUS_CLOSE = 'closed';
+
     public function wallet()
     {
-        return $this->belongsTo(Deposit::class);
+        return $this->belongsTo(Wallet::class);
     }
 }

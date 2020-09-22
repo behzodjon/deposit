@@ -16,12 +16,6 @@ use App\Deposit;
 */
 
 Route::get('/', function () {
-
-    // dd($deposits);
-        $a=$deposits->each(function($deposit){
-                return $deposit->invested;
-        });
-        dd($a);
     return view('welcome');
 });
 
